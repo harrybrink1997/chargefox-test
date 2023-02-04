@@ -1,0 +1,140 @@
+[
+  {
+    "charge_session_id": "408",
+    "amount_of_charge": "2299",
+    "rate_of_charge": "6300",
+    "timestamp": "2022-08-18 05:06:03"
+  },
+  {
+    "charge_session_id": "408",
+    "amount_of_charge": "2083",
+    "rate_of_charge": "6300",
+    "timestamp": "2022-08-18 05:05:27"
+  },
+  {
+    "charge_session_id": "408",
+    "amount_of_charge": "1656",
+    "rate_of_charge": "6300",
+    "timestamp": "2022-08-18 05:04:56"
+  },
+  {
+    "charge_session_id": "408",
+    "amount_of_charge": "1391",
+    "rate_of_charge": "6300",
+    "timestamp": "2022-08-18 05:04:22"
+  },
+  {
+    "charge_session_id": "408",
+    "amount_of_charge": "1286",
+    "rate_of_charge": "6300",
+    "timestamp": "2022-08-18 05:03:52"
+  },
+  {
+    "charge_session_id": "407",
+    "amount_of_charge": "0",
+    "rate_of_charge": "0",
+    "timestamp": "2022-08-18 04:59:03"
+  },
+  {
+    "charge_session_id": "407",
+    "amount_of_charge": "0",
+    "rate_of_charge": "0",
+    "timestamp": "2022-08-18 04:58:30"
+  },
+  {
+    "charge_session_id": "407",
+    "amount_of_charge": "0",
+    "rate_of_charge": "0",
+    "timestamp": "2022-08-18 04:57:59"
+  },
+  {
+    "charge_session_id": "407",
+    "amount_of_charge": "0",
+    "rate_of_charge": "0",
+    "timestamp": "2022-08-18 04:57:29"
+  },
+  {
+    "charge_session_id": "407",
+    "amount_of_charge": "0",
+    "rate_of_charge": "0",
+    "timestamp": "2022-08-18 04:56:57"
+  },
+  {
+    "charge_session_id": "407",
+    "amount_of_charge": "0",
+    "rate_of_charge": "0",
+    "timestamp": "2022-08-18 04:56:19"
+  },
+  {
+    "charge_session_id": "404",
+    "amount_of_charge": "14",
+    "rate_of_charge": "3256",
+    "timestamp": "2022-08-18 04:45:28"
+  },
+  {
+    "charge_session_id": "404",
+    "amount_of_charge": "287",
+    "rate_of_charge": "3400",
+    "timestamp": "2022-08-18 04:44:54"
+  },
+  {
+    "charge_session_id": "404",
+    "amount_of_charge": "195",
+    "rate_of_charge": "2900",
+    "timestamp": "2022-08-18 04:44:20"
+  },
+  {
+    "charge_session_id": "404",
+    "amount_of_charge": "103",
+    "rate_of_charge": "3300",
+    "timestamp": "2022-08-18 04:43:47"
+  },
+  {
+    "charge_session_id": "404",
+    "amount_of_charge": "14",
+    "rate_of_charge": "2300",
+    "timestamp": "2022-08-18 04:43:17"
+  },
+  {
+    "charge_session_id": "403",
+    "amount_of_charge": "287",
+    "rate_of_charge": "2100",
+    "timestamp": "2022-08-18 04:42:43"
+  },
+  {
+    "charge_session_id": "403",
+    "amount_of_charge": "195",
+    "rate_of_charge": "1300",
+    "timestamp": "2022-08-18 04:42:12"
+  },
+  {
+    "charge_session_id": "403",
+    "amount_of_charge": "103",
+    "rate_of_charge": "300",
+    "timestamp": "2022-08-18 04:41:40"
+  },
+  {
+    "charge_session_id": "401",
+    "amount_of_charge": "287",
+    "rate_of_charge": "6300",
+    "timestamp": "2022-08-18 04:34:43"
+  },
+  {
+    "charge_session_id": "401",
+    "amount_of_charge": "195",
+    "rate_of_charge": "6200",
+    "timestamp": "2022-08-18 04:34:06"
+  },
+  {
+    "charge_session_id": "401",
+    "amount_of_charge": "103",
+    "rate_of_charge": "6370",
+    "timestamp": "2022-08-18 04:33:36"
+  },
+  {
+    "charge_session_id": "401",
+    "amount_of_charge": "14",
+    "rate_of_charge": "2300",
+    "timestamp": "2022-08-18 04:33:05"
+  }
+]
