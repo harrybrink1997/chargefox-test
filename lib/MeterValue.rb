@@ -13,6 +13,7 @@ class MeterValue
     @timestamp = timestamp
   end
   
+  # Generates JSON formatted data for class
   def generateJson()
     return {
       charge_session_id: @charge_session_id,

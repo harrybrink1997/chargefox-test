@@ -11,6 +11,7 @@ class Vehicle
     @model = model
   end
   
+  # Generates JSON formatted data for class
   def generateJson()
     return {
       make: @make,

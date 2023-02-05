@@ -20,22 +20,28 @@ class ChargingSession
 
   def addMeterValue(meter_value)
     @meter_values.push(meter_value)
-    @total_charge += meter_value.amount_of_charge()
-    # TODO add to total_rate_of_charge somehow....
+
+    if (meter_value.amount_of_charge() > @total_rate_charge)
+      @total_charge = meter_value.amount_of_charge()
+    end
+
+    @total_rate_charge += meter_value.rate_of_charge()
   end
 
   # Return the average of meter all meter values. If no meter values have been recorded return zero. 
   def average_rate_charge()
     begin
-      return @total_rate_charge / this.num_meter_values
+      puts(@total_rate_charge)
+      puts(num_meter_values())
+      return (@total_rate_charge / num_meter_values()).round(2)
     rescue
-      return 0
+      return 0.0
     end
   end
 
   # Generate the number of meter values in the charging session.
   def num_meter_values()
-    return @num_meter_values.length
+    return @meter_values.length()
   end
 
 
@@ -44,7 +50,7 @@ class ChargingSession
     return {
       id: @id,
       total_charge: @total_charge,
-      average_rate_charge: @average_rate_charge,
+      average_rate_charge: average_rate_charge(),
       user: @user
     }
   end

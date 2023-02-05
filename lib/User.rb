@@ -13,6 +13,7 @@ class User
     @sessions = {}
   end
 
+  # Generates JSON formatted data for class
   def generateJson()
     return {
       user: @name,
