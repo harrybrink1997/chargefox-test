@@ -6,15 +6,13 @@
 
 class Vehicle
 
-  def initialize(owner, make, model)
-    @owner = owner
+  def initialize(make, model)
     @make = make
     @model = model
   end
   
   def generateJson()
     return {
-      owner: @owner,
       make: @make,
       model: @model
     }

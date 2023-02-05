@@ -8,8 +8,8 @@ class MeterValue
 
   def initialize(charge_session_id, amount_of_charge, rate_of_charge, timestamp)
     @charge_session_id = charge_session_id
-    @amount_of_charge = amount_of_charge
-    @rate_of_charge = rate_of_charge
+    @amount_of_charge = amount_of_charge.to_f
+    @rate_of_charge = rate_of_charge.to_f
     @timestamp = timestamp
   end
   
@@ -21,5 +21,23 @@ class MeterValue
       timestamp: @timestamp  
     }
   end
+
+  # Getters and setters
+  def amount_of_charge()
+    @amount_of_charge
+  end
+
+  def charge_session_id()
+    @charge_session_id
+  end
+
+  def rate_of_charge()
+    @rate_of_charge
+  end
+
+  def timestamp()
+    @timestamp
+  end
+
 
 end

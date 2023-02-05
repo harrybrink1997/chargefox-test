@@ -1,23 +1,23 @@
 # Author: Harry Brink
 # Date: 05/02/2023
-# Owner Class Object to represent an individual charging session of an owners vehicle.
+# User Class Object to represent an individual charging session of an owners vehicle.
 
 # Reasoning: (I wouldn't usually put a reasoning comment in a file but just so I remember why I did certain things for the future.) Owners can have multiple charging sessions - since owners are the users of the app makes sense to have an owners object which holds all their charging sessions and vehicles for easy access and process during runtime. 
 
-class Vehicle
+class User
 
-  @vehicles = Array.new
-  @sessions = Array.new
-
+  
   def initialize(name)
-    @owner = owner
+    @name = name
+    @vehicles = Array.new
+    @sessions = {}
   end
 
   def generateJson()
     return {
-      owner: @owner,
-      vehicles: this.generateVehicleJsons(),
-      charging_sessions: this.generateSessionJsons()
+      user: @name,
+      vehicles: generateVehicleJsons(),
+      charging_sessions: generateSessionJsons()
     }
   end
 
@@ -35,13 +35,38 @@ class Vehicle
 
   # Generates an array of owner sessions in json format.
   def generateSessionJsons()
-    sessions = Array.new
+    json_sessions = Array.new
 
-    @sessions.each do |session|
-      sessions.push(session.generateJson())
+    sessions.values.each do |session|
+      json_sessions.push(session.generateJson())
     end
 
-    return sessions
+    return json_sessions
   end
+
+  # Add a vehicle to vehicle list.
+  def addVehicle(vehicle)
+    @vehicles.push(vehicle)
+  end
+
+  def addSession(session)
+    puts(session)
+    @sessions[session.id] = session
+  end
+
+  # Getters and Setters
+  def vehicles()
+    @vehicles
+  end
+
+  def sessions()
+    @sessions
+  end
+
+  def name()
+    @name
+  end
+
+
 
 end
