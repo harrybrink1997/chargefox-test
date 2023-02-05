@@ -8,20 +8,20 @@
 
 class ChargingSession
 
-  @total_charge = 0
-  @total_rate_charge = 0
-  @vehicle = ''
-  @meter_values = Array.new
-
+  
   def initialize(id, user)
     @id = id
     @user = user
+    @total_charge = 0
+    @total_rate_charge = 0
+    @vehicle = ''
+    @meter_values = Array.new
   end
 
   def addMeterValue(meter_value)
     @meter_values.push(meter_value)
-    @total_charge += meter_value.amount_of_charge
-    
+    @total_charge += meter_value.amount_of_charge()
+    # TODO add to total_rate_of_charge somehow....
   end
 
   # Return the average of meter all meter values. If no meter values have been recorded return zero. 
@@ -44,7 +44,8 @@ class ChargingSession
     return {
       id: @id,
       total_charge: @total_charge,
-      average_rate_charge: @average_rate_charge
+      average_rate_charge: @average_rate_charge,
+      user: @user
     }
   end
 
@@ -53,31 +54,15 @@ class ChargingSession
     @id
   end
 
-  def id(id)
-    @id=id
-  end
-
   def user()
     @user
-  end
-
-  def user(user)
-    @user=user
   end
 
   def vehicle()
     @vehicle
   end
 
-  def vehicle(vehicle)
-    @vehicle=vehicle
-  end
-
   def total_charge()
     @total_charge
-  end
-
-  def total_charge(total_charge)
-    @total_charge=total_charge
   end
 end
