@@ -39,31 +39,32 @@ def main
 
   sessions = {}
 
+  # Process both the session data
   sessions_json.each do |session|
     sessions[session["id"]] = ChargingSession.new(session['id'], session['user'])
   end
 
-  
+  # Process both the meter data
   meter_json.each do |meter|
-    # puts(meter['charge_session_id'])
     sessions[meter["charge_session_id"]].addMeterValue(MeterValue.new(meter["charge_session_id"], meter["amount_of_charge"], meter["rate_of_charge"], meter["timestamp"]))
   end
   
+  # Aggregate the session data into the user data.
   sessions.values.each do |session|
     users[session.user].addSession(session)
   end
 
   users = users.values
-  puts(users)
-  aggregated_session_data = []
+  session_data_output = []
 
+  # Pull all session data from each user in json format.
   users.each do |user|
-    aggregated_session_data.append(user.generateSessionJsons())
+    session_data_output.append(user.generateSessionJsons())
   end
 
-  puts(aggregated_session_data)
+  puts(session_data_output)
 
-  return aggregated_session_data
+  return JSON.generate(session_data_output)
 
 end
 
