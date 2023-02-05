@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'charger_app'
+require_relative './spec_helper'
+require_relative '../lib/charger_app.rb'
 
 # TODO: - Add more timestamps
 RSpec.describe 'integration' do
@@ -55,6 +55,128 @@ RSpec.describe 'integration' do
         { "user": "Esmai Merritt", "vehicle": "Tesla Model 3 Long Range", "session_count": "1", "total_charge_amount": "2.99 kWh", "average_rate_of_charge": "2.65 kW"}
       ]
     JSON
+  end
+
+  describe Vehicle do
+    subject(:result) do
+      vehicle = Vehicle.new('BMW', 'iX M60')
+    end
+
+    it 'creates a instance as expected' do
+      expect(result.make()).to eq('BMW')
+      expect(result.model()).to eq('iX M60')
+    end
+    
+    it 'outputs json format as expected' do
+      json = result.generateJson()
+      expect(json[:model]).to eq('iX M60')
+      expect(json[:make]).to eq('BMW')
+      expect(json[:vehicle]).to eq('BMW iX M60')
+    end
+  end
+
+  describe MeterValue do
+    subject(:result) do
+      meter_value = MeterValue.new("404", "14", "2300", "2022-08-18 04:43:17")
+    end
+
+    it 'creates a instance as expected' do
+      expect(result.charge_session_id()).to eq('404')
+      expect(result.amount_of_charge()).to eq(14)
+      expect(result.rate_of_charge()).to eq(2300)
+      expect(result.timestamp()).to eq("2022-08-18 04:43:17")
+    end
+    
+    it 'outputs json format as expected' do
+      json = result.generateJson()
+      expect(json[:charge_session_id]).to eq('404')
+      expect(json[:amount_of_charge]).to eq(14)
+      expect(json[:rate_of_charge]).to eq(2300)
+      expect(json[:timestamp]).to eq("2022-08-18 04:43:17")
+    end
+  end
+
+  describe ChargingSession do
+    subject(:result) do
+      meter_value_1 = MeterValue.new("404", "14", "2300", "2022-08-18 04:43:17")
+      meter_value_2 = MeterValue.new("404", "20", "1400", "2022-08-18 04:43:18")
+      meter_value_3 = MeterValue.new("404", "30", "2300", "2022-08-18 04:43:23")
+
+      session = ChargingSession.new("404")
+      session.addMeterValue(meter_value_1)
+      session.addMeterValue(meter_value_2)
+      session.addMeterValue(meter_value_3)
+
+      return session
+
+    end
+
+    it 'creates a instance as expected' do
+      expect(result.id()).to eq('404')
+      expect(result.num_meter_values()).to eq(3)
+      expect(result.meter_values()[0].timestamp()).to eq("2022-08-18 04:43:17")
+      expect(result.meter_values()[1].timestamp()).to eq("2022-08-18 04:43:18")
+      expect(result.meter_values()[2].timestamp()).to eq("2022-08-18 04:43:23")
+    end
+    
+    it 'outputs json format as expected' do
+      json = result.generateJson()
+      expect(json[:id]).to eq('404')
+      expect(json[:charge_amount]).to eq(30)
+      expect(json[:total_average_rate_of_charge]).to eq(6000)
+      expect(json[:num_meter_values]).to eq(3)
+    end
+  end
+
+  describe User do
+    subject(:result) do
+      vehicle = Vehicle.new('BMW', 'iX M60')
+      user = User.new('Gordon Cote', vehicle)
+
+    end
+
+    it 'creates a instance as expected' do
+      expect(result.vehicle().make()).to eq('BMW')
+      expect(result.vehicle().model()).to eq('iX M60')
+      expect(result.sessions()).to eq({})
+      expect(result.name()).to eq('Gordon Cote')
+    end
+    
+    it 'adds session as expected ' do
+      meter_value_1 = MeterValue.new("404", "14", "2300", "2022-08-18 04:43:17")
+      meter_value_2 = MeterValue.new("404", "20", "1400", "2022-08-18 04:43:18")
+      meter_value_3 = MeterValue.new("404", "30", "2300", "2022-08-18 04:43:23")
+
+      session = ChargingSession.new("404")
+      session.addMeterValue(meter_value_1)
+      session.addMeterValue(meter_value_2)
+      session.addMeterValue(meter_value_3)
+
+      result.addSession(session)
+
+      expect(result.sessions().keys.length).to eq(1)
+
+    end
+    
+    it 'outputs instance json format as expected' do
+      meter_value_1 = MeterValue.new("404", "14", "2300", "2022-08-18 04:43:17")
+      meter_value_2 = MeterValue.new("404", "20", "1400", "2022-08-18 04:43:18")
+      meter_value_3 = MeterValue.new("404", "30", "2300", "2022-08-18 04:43:23")
+
+      session = ChargingSession.new("404")
+      session.addMeterValue(meter_value_1)
+      session.addMeterValue(meter_value_2)
+      session.addMeterValue(meter_value_3)
+
+      result.addSession(session)
+
+      json = result.generateJson()
+      expect(json[:total_charge_amount]).to eq('30.0 kWh')
+      expect(json[:average_rate_of_charge]).to eq('2000.0 kW')
+      expect(json[:vehicle]).to eq('BMW iX M60')
+      expect(json[:user]).to eq('Gordon Cote')
+      expect(json[:session_count]).to eq('1')
+    end
   end
 
   describe ChargerApp do
