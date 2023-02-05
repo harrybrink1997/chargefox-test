@@ -14,9 +14,19 @@ class Vehicle
   # Generates JSON formatted data for class
   def generateJson()
     return {
+      vehicle: @make + ' ' + @model,
       make: @make,
       model: @model
     }
   end
+
+  def make()
+    return @make
+  end
+
+  def model()
+    return @model
+  end
+
 
 end

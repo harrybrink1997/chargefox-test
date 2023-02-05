@@ -7,57 +7,60 @@
 class User
 
   
-  def initialize(name)
+  def initialize(name, vehicle)
     @name = name
-    @vehicles = Array.new
+    @vehicle = vehicle
     @sessions = {}
   end
 
   # Generates JSON formatted data for class
   def generateJson()
+    session_data = generateSessionData()
+
     return {
       user: @name,
-      vehicles: generateVehicleJsons(),
-      charging_sessions: generateSessionJsons()
+      vehicle: @vehicle.generateJson()[:vehicle],
+      average_rate_of_charge: session_data[:average_rate_of_charge].to_s + " kW",
+      total_charge_amount: session_data[:total_charge_amount].to_s + " kWh",
+      session_count: @sessions.length.to_s
     }
   end
 
-  # Generates an array of owner vehicles in json format.
-  def generateVehicleJsons()
-    vehicles = Array.new
-
-    @vehicles.each do |vehicle|
-      vehicles.push(vehicle.generateJson())
-    end
-
-    return vehicles
-
-  end
-
   # Generates an array of owner sessions in json format.
-  def generateSessionJsons()
-    json_sessions = Array.new
+  def generateSessionData()
 
-    sessions.values.each do |session|
-      json_sessions.push(session.generateJson())
+    session_data = {
+      total_charge_amount: 0,
+      average_rate_of_charge: 0
+    }
+
+    total_rate_charge = 0
+    num_meter_values = 0
+
+
+    @sessions.values.each do |session|
+      session_json = session.generateJson()
+      session_data[:total_charge_amount] += session_json[:charge_amount]
+      total_rate_charge += session_json[:total_average_rate_of_charge]
+      num_meter_values += session_json[:num_meter_values]
     end
 
-    return json_sessions
-  end
+    begin
+      session_data[:average_rate_of_charge] = (total_rate_charge / num_meter_values).round(2)
+    rescue
+      session_data[:average_rate_of_charge] = 0.00
+    end
 
-  # Add a vehicle to vehicle list.
-  def addVehicle(vehicle)
-    @vehicles.push(vehicle)
+    return session_data
   end
 
   def addSession(session)
-    puts(session)
     @sessions[session.id] = session
   end
 
   # Getters and Setters
-  def vehicles()
-    @vehicles
+  def vehicle()
+    @vehicle
   end
 
   def sessions()

@@ -9,34 +9,20 @@
 class ChargingSession
 
   
-  def initialize(id, user)
+  def initialize(id)
     @id = id
-    @user = user
-    @total_charge = 0
-    @total_rate_charge = 0
-    @vehicle = ''
+    @total_charge = 0.0
+    @total_rate_charge = 0.0
     @meter_values = Array.new
   end
 
   def addMeterValue(meter_value)
     @meter_values.push(meter_value)
 
-    if (meter_value.amount_of_charge() > @total_rate_charge)
+    if (meter_value.amount_of_charge() > @total_charge)
       @total_charge = meter_value.amount_of_charge()
     end
-
     @total_rate_charge += meter_value.rate_of_charge()
-  end
-
-  # Return the average of meter all meter values. If no meter values have been recorded return zero. 
-  def average_rate_charge()
-    begin
-      puts(@total_rate_charge)
-      puts(num_meter_values())
-      return (@total_rate_charge / num_meter_values()).round(2)
-    rescue
-      return 0.0
-    end
   end
 
   # Generate the number of meter values in the charging session.
@@ -44,14 +30,13 @@ class ChargingSession
     return @meter_values.length()
   end
 
-
   #Generates the ChargingSession instance as a usable json object.
   def generateJson()
     return {
       id: @id,
-      total_charge: @total_charge,
-      average_rate_charge: average_rate_charge(),
-      user: @user
+      charge_amount: @total_charge,
+      total_average_rate_of_charge: @total_rate_charge,
+      num_meter_values: num_meter_values()
     }
   end
 
@@ -60,15 +45,11 @@ class ChargingSession
     @id
   end
 
-  def user()
-    @user
-  end
-
-  def vehicle()
-    @vehicle
-  end
-
   def total_charge()
     @total_charge
+  end
+
+  def meter_values()
+    @meter_values
   end
 end
