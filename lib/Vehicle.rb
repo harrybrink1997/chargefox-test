@@ -12,6 +12,8 @@ class Vehicle
   end
   
   # Generates JSON formatted data for class
+  # Inputs: Void
+  # Outputs: Hashmap instance_json_data
   def generateJson()
     return {
       vehicle: @make + ' ' + @model,
@@ -20,13 +22,8 @@ class Vehicle
     }
   end
 
-  def make()
-    return @make
-  end
-
-  def model()
-    return @model
-  end
-
+  # Getters and Setters
+  attr_accessor :make
+  attr_accessor :model
 
 end
