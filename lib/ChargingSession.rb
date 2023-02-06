@@ -41,15 +41,18 @@ class ChargingSession
   end
 
   # Getters and Setters
-  def id()
-    @id
-  end
+  attr_reader :id
+  attr_accessor :total_charge
+  attr_accessor :meter_values
+  # def id()
+  #   @id
+  # end
 
-  def total_charge()
-    @total_charge
-  end
+  # def total_charge()
+  #   @total_charge
+  # end
 
-  def meter_values()
-    @meter_values
-  end
+  # def meter_values()
+  #   @meter_values
+  # end
 end

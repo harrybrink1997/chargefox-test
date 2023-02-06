@@ -11,20 +11,22 @@ require_relative 'User.rb'
 
 class ChargerApp
 
-  # Main fuction for coding test.
-  # Inputs: None.
-  # Outputs: None.
+  # Main fuction for the ChargerApp class.
+  # Inputs: string meter_data, string sessions_data, string vehicles_data.
+  # Outputs: string processed_session_data
   def self.call(meter_data, sessions_data, vehicles_data)
 
+    # Parse all JSON formatted strings into usable JSON objects.
     sessions_json = JSON.parse(sessions_data)
     meter_json = JSON.parse(meter_data)
     vehicles_json = JSON.parse(vehicles_data)
 
+    # Initialise hash maps used for faster data processing.
     users = {}
     vehicles = {}
     sessions = {}
 
-    # Create all vehicle objects and associated hash map to users.
+    # Create all vehicle objects store in hash map with user as key.
     vehicles_json.each do |vehicle|
       vehicles[vehicle['user']] = Vehicle.new(vehicle['make'], vehicle['model'])
     end
@@ -40,6 +42,7 @@ class ChargerApp
 
       new_session = ChargingSession.new(session['id'])
 
+      # Store session in session hashmap and also add to use instance. Allows for faster data processing when adding meter value data.
       sessions[session['id']] = new_session
       users[session['user']].addSession(new_session)
     end
@@ -50,23 +53,21 @@ class ChargerApp
       users[vehicle_user] = new_user
     end
     
-    # Process both the meter data
+    # Process the meter data and assign to specific charging sessions.
     meter_json.each do |meter|
       sessions[meter['charge_session_id']].addMeterValue(MeterValue.new(meter['charge_session_id'], meter['amount_of_charge'], meter['rate_of_charge'], meter['timestamp']))
     end
 
     # Extract all users and their associated data from hashmap.
     users = users.values
-    session_data_output = []
+    processed_session_data = []
 
     # Pull all session data from each user in json format.
     users.each do |user|
-      session_data_output.append(user.generateJson())
+      processed_session_data.append(user.generateJson())
     end
 
-    puts(session_data_output)
-
-    return JSON.generate(session_data_output)
+    return JSON.generate(processed_session_data)
 
   end
 end
