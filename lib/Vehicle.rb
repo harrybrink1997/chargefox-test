@@ -12,6 +12,8 @@ class Vehicle
   end
   
   # Generates JSON formatted data for class
+  # Inputs: Void
+  # Outputs: Hashmap instance_json_data
   def generateJson()
     return {
       vehicle: @make + ' ' + @model,

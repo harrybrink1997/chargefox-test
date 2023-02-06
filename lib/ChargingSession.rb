@@ -36,6 +36,8 @@ class ChargingSession
   end
 
   #Generates the ChargingSession instance as a usable json object.
+  # Inputs: Void
+  # Outputs: Hashmap instance_json_data
   def generateJson()
     return {
       id: @id,
