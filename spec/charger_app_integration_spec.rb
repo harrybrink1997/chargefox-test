@@ -42,7 +42,8 @@ RSpec.describe 'integration' do
       [
         { "user": "Lorna Phillips", "make": "Tesla", "model": "Model 3" },
         { "user": "Esmai Merritt", "make": "Tesla", "model": "Model 3 Long Range" },
-        { "user": "Gordon Cote", "make": "BMW", "model": "iX M60" }
+        { "user": "Gordon Cote", "make": "BMW", "model": "iX M60" },
+        { "user": "Fred Smith", "make": "Tesla", "model": "Model X" }
       ]
     JSON
   end
@@ -52,7 +53,8 @@ RSpec.describe 'integration' do
       [
         { "user": "Gordon Cote", "vehicle": "BMW iX M60", "session_count": "1", "total_charge_amount": "3.19 kWh", "average_rate_of_charge": "3.05 kW" },
         { "user": "Lorna Phillips", "vehicle": "Tesla Model 3", "session_count": "2", "total_charge_amount": "1.57 kWh", "average_rate_of_charge": "3.10 kW"},
-        { "user": "Esmai Merritt", "vehicle": "Tesla Model 3 Long Range", "session_count": "1", "total_charge_amount": "2.99 kWh", "average_rate_of_charge": "2.65 kW"}
+        { "user": "Esmai Merritt", "vehicle": "Tesla Model 3 Long Range", "session_count": "1", "total_charge_amount": "2.99 kWh", "average_rate_of_charge": "2.65 kW"},
+        { "user": "Fred Smith", "vehicle": "Tesla Model X", "session_count": "0", "total_charge_amount": "0.00 kWh", "average_rate_of_charge": "0.00 kW"}
       ]
     JSON
   end
@@ -206,17 +208,24 @@ RSpec.describe 'integration' do
       expect(result[1]['vehicle']).to eq('Tesla Model 3')
       expect(result[2]['vehicle']).to eq('Tesla Model 3 Long Range')
     end
-
+    
     it 'has kilowatt_total for each user' do
-      # expect(result[0]['total_charge_amount']).to eq('3.19 kWh')
+      expect(result[0]['total_charge_amount']).to eq('3.19 kWh')
       expect(result[1]['total_charge_amount']).to eq('1.57 kWh')
       expect(result[2]['total_charge_amount']).to eq('2.99 kWh')
     end
-
+    
     it 'has average charge speed for each user' do
       expect(result[0]['average_rate_of_charge']).to eq('3.05 kW')
       expect(result[1]['average_rate_of_charge']).to eq('3.10 kW')
       expect(result[2]['average_rate_of_charge']).to eq('2.65 kW')
+    end
+    
+    it 'has correct average charge speed for a user without charging sessions' do
+      expect(result[3]['average_rate_of_charge']).to eq('0.00 kW')
+    end
+    it 'has correct kilowatt_total for a user without charging sessions' do
+      expect(result[3]['total_charge_amount']).to eq('0.00 kWh')
     end
   end
 end

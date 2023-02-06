@@ -46,7 +46,7 @@ class User
     end
 
     begin
-      session_data[:average_rate_of_charge] = (total_rate_charge / num_meter_values).round(2)
+      session_data[:average_rate_of_charge] = (total_rate_charge / num_meter_values)
     rescue
       session_data[:average_rate_of_charge] = 0.00
     end

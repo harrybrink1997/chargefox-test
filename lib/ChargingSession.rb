@@ -34,8 +34,8 @@ class ChargingSession
   def generateJson()
     return {
       id: @id,
-      charge_amount: (@total_charge / 1000).round(2),
-      total_average_rate_of_charge: (@total_rate_charge / 1000).round(2),
+      charge_amount: (@total_charge / 1000),
+      total_average_rate_of_charge: (@total_rate_charge / 1000),
       num_meter_values: num_meter_values()
     }
   end
