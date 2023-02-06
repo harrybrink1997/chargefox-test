@@ -1,11 +1,24 @@
 require_relative './spec_helper'
 require_relative '../lib/charger_app.rb'
 
-# TODO: - Add more timestamps
 RSpec.describe 'integration' do
   let(:meter_values) do
     <<-JSON
       [
+        { "charge_session_id": "8", "amount_of_charge": "0", "rate_of_charge": "0", "timestamp": "2022-08-18 02:10:15" },
+        { "charge_session_id": "8", "amount_of_charge": "0", "rate_of_charge": "0", "timestamp": "2022-08-18 02:10:10" },
+        { "charge_session_id": "8", "amount_of_charge": "0", "rate_of_charge": "0", "timestamp": "2022-08-18 02:10:05" },
+        { "charge_session_id": "7", "amount_of_charge": "3100", "rate_of_charge": "1232", "timestamp": "2022-08-18 01:59:56" },
+        { "charge_session_id": "7", "amount_of_charge": "3010", "rate_of_charge": "987", "timestamp": "2022-08-18 01:59:56" },
+        { "charge_session_id": "7", "amount_of_charge": "2988", "rate_of_charge": "657", "timestamp": "2022-08-18 01:59:56" },
+        { "charge_session_id": "6", "amount_of_charge": "1650", "rate_of_charge": "987", "timestamp": "2022-08-18 10:10:20" },
+        { "charge_session_id": "6", "amount_of_charge": "1500", "rate_of_charge": "1342", "timestamp": "2022-08-18 10:10:15" },
+        { "charge_session_id": "6", "amount_of_charge": "1234", "rate_of_charge": "4563", "timestamp": "2022-08-18 10:10:10" },
+        { "charge_session_id": "5", "amount_of_charge": "1350", "rate_of_charge": "0", "timestamp": "2022-08-18 03:01:25" },
+        { "charge_session_id": "5", "amount_of_charge": "1300", "rate_of_charge": "1111", "timestamp": "2022-08-18 03:01:15" },
+        { "charge_session_id": "5", "amount_of_charge": "1270", "rate_of_charge": "1231", "timestamp": "2022-08-18 02:59:56" },
+        { "charge_session_id": "5", "amount_of_charge": "1240", "rate_of_charge": "3214", "timestamp": "2022-08-18 02:59:46" },
+        { "charge_session_id": "5", "amount_of_charge": "1000", "rate_of_charge": "1300", "timestamp": "2022-08-18 02:59:36" },
         { "charge_session_id": "4", "amount_of_charge": "2988", "rate_of_charge": "3300", "timestamp": "2022-08-18 01:59:56" },
         { "charge_session_id": "4", "amount_of_charge": "2554", "rate_of_charge": "4300", "timestamp": "2022-08-18 01:57:21" },
         { "charge_session_id": "4", "amount_of_charge": "1258", "rate_of_charge": "2000", "timestamp": "2022-08-18 01:55:51" },
@@ -32,7 +45,11 @@ RSpec.describe 'integration' do
         { "id": "1", "user": "Gordon Cote" },
         { "id": "2", "user": "Lorna Phillips" },
         { "id": "3", "user": "Lorna Phillips" },
-        { "id": "4", "user": "Esmai Merritt" }
+        { "id": "4", "user": "Esmai Merritt" },
+        { "id": "5", "user": "Harvey Norman" },
+        { "id": "6", "user": "Harvey Norman" },
+        { "id": "7", "user": "Harvey Norman" },
+        { "id": "8", "user": "Harvey Norman" }
       ]
     JSON
   end
@@ -43,7 +60,8 @@ RSpec.describe 'integration' do
         { "user": "Lorna Phillips", "make": "Tesla", "model": "Model 3" },
         { "user": "Esmai Merritt", "make": "Tesla", "model": "Model 3 Long Range" },
         { "user": "Gordon Cote", "make": "BMW", "model": "iX M60" },
-        { "user": "Fred Smith", "make": "Tesla", "model": "Model X" }
+        { "user": "Fred Smith", "make": "Tesla", "model": "Model X" },
+        { "user": "Harvey Norman", "make": "Tesla", "model": "Semi" }
       ]
     JSON
   end
@@ -54,6 +72,7 @@ RSpec.describe 'integration' do
         { "user": "Gordon Cote", "vehicle": "BMW iX M60", "session_count": "1", "total_charge_amount": "3.19 kWh", "average_rate_of_charge": "3.05 kW" },
         { "user": "Lorna Phillips", "vehicle": "Tesla Model 3", "session_count": "2", "total_charge_amount": "1.57 kWh", "average_rate_of_charge": "3.10 kW"},
         { "user": "Esmai Merritt", "vehicle": "Tesla Model 3 Long Range", "session_count": "1", "total_charge_amount": "2.99 kWh", "average_rate_of_charge": "2.65 kW"},
+        { "user": "Harvey Norman", "vehicle": "Tesla Semi", "session_count": "4", "total_charge_amount": "6.10 kWh", "average_rate_of_charge": "1.19 kW"},
         { "user": "Fred Smith", "vehicle": "Tesla Model X", "session_count": "0", "total_charge_amount": "0.00 kWh", "average_rate_of_charge": "0.00 kW"}
       ]
     JSON
@@ -201,31 +220,35 @@ RSpec.describe 'integration' do
       expect(result[0]['session_count']).to eq('1')
       expect(result[1]['session_count']).to eq('2')
       expect(result[2]['session_count']).to eq('1')
+      expect(result[3]['session_count']).to eq('4')
     end
 
     it 'has session count for each user' do
       expect(result[0]['vehicle']).to eq('BMW iX M60')
       expect(result[1]['vehicle']).to eq('Tesla Model 3')
       expect(result[2]['vehicle']).to eq('Tesla Model 3 Long Range')
+      expect(result[3]['vehicle']).to eq('Tesla Semi')
     end
     
     it 'has kilowatt_total for each user' do
       expect(result[0]['total_charge_amount']).to eq('3.19 kWh')
       expect(result[1]['total_charge_amount']).to eq('1.57 kWh')
       expect(result[2]['total_charge_amount']).to eq('2.99 kWh')
+      expect(result[3]['total_charge_amount']).to eq('6.10 kWh')
     end
     
     it 'has average charge speed for each user' do
       expect(result[0]['average_rate_of_charge']).to eq('3.05 kW')
       expect(result[1]['average_rate_of_charge']).to eq('3.10 kW')
       expect(result[2]['average_rate_of_charge']).to eq('2.65 kW')
+      expect(result[3]['average_rate_of_charge']).to eq('1.19 kW')
     end
     
     it 'has correct average charge speed for a user without charging sessions' do
-      expect(result[3]['average_rate_of_charge']).to eq('0.00 kW')
+      expect(result[4]['average_rate_of_charge']).to eq('0.00 kW')
     end
     it 'has correct kilowatt_total for a user without charging sessions' do
-      expect(result[3]['total_charge_amount']).to eq('0.00 kWh')
+      expect(result[4]['total_charge_amount']).to eq('0.00 kWh')
     end
   end
 end
