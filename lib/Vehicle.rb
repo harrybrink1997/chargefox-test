@@ -20,13 +20,8 @@ class Vehicle
     }
   end
 
-  def make()
-    return @make
-  end
-
-  def model()
-    return @model
-  end
-
+  # Getters and Setters
+  attr_accessor :make
+  attr_accessor :model
 
 end
