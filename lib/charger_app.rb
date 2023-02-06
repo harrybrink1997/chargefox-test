@@ -72,17 +72,17 @@ class ChargerApp
 end
 
 
-def main
-  sessions_file = File.open("../data/charge_sessions.json", "r")
-  meter_file = File.open("../data/meter_values.json", "r")
-  vehicles_file = File.open("../data/vehicles.json", "r")
+# def main
+#   sessions_file = File.open("../data/charge_sessions.json", "r")
+#   meter_file = File.open("../data/meter_values.json", "r")
+#   vehicles_file = File.open("../data/vehicles.json", "r")
 
-  sessions_json = sessions_file.read
-  meter_json = meter_file.read
-  vehicles_json = vehicles_file.read
+#   sessions_json = sessions_file.read
+#   meter_json = meter_file.read
+#   vehicles_json = vehicles_file.read
 
 
-  ChargerApp.call(meter_json, sessions_json, vehicles_json)
-end
+#   ChargerApp.call(meter_json, sessions_json, vehicles_json)
+# end
 
-main()
+# main()

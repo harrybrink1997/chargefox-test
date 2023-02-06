@@ -20,8 +20,8 @@ class User
     return {
       user: @name,
       vehicle: @vehicle.generateJson()[:vehicle],
-      average_rate_of_charge: session_data[:average_rate_of_charge].to_s + " kW",
-      total_charge_amount: session_data[:total_charge_amount].to_s + " kWh",
+      average_rate_of_charge: format('%0.2f', session_data[:average_rate_of_charge].to_s) + " kW",
+      total_charge_amount: format('%0.2f', session_data[:total_charge_amount].to_s) + " kWh",
       session_count: @sessions.length.to_s
     }
   end
